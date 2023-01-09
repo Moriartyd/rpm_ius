@@ -29,9 +29,13 @@ public class ComplexNumber {
     }
 
     public static ComplexNumber div(ComplexNumber x, ComplexNumber y) {
+        int denominator = (y.real * y.real) + (y.imag * y.imag);
+        if (denominator == 0) {
+            throw new IllegalArgumentException("Division by zero!");
+        }
         return new ComplexNumber(
-                ((x.real * y.real) + (x.imag * y.imag)) / ((y.real * y.real) + (y.imag * y.imag)),
-                ((x.imag * y.real) - (x.real + y.imag)) / ((y.real * y.real) + (y.imag * y.imag)));
+                ((x.real * y.real) + (x.imag * y.imag)) / (denominator),
+                ((x.imag * y.real) - (x.real + y.imag)) / (denominator));
     }
 
     public String toString() {
