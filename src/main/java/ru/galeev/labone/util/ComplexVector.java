@@ -8,7 +8,7 @@ public class ComplexVector {
         return elementData;
     }
 
-    private final ComplexNumber[] elementData;
+    private ComplexNumber[] elementData;
 
     int elementCount = 0;
 
@@ -29,6 +29,79 @@ public class ComplexVector {
 
     public int getLength() {
         return this.elementCount;
+    }
+
+    public void addToStart(ComplexNumber element) {
+        addElement(0, element);
+    }
+
+    public void addToEnd(ComplexNumber element) {
+        addElement(this.elementCount, element);
+    }
+
+    //Удаление, добавление элемента на место по индексу и в начало/конец
+    public void addElement(int index, ComplexNumber element) {
+        checkArg(element);
+        checkArg(index);
+        ComplexNumber[] newVector = new ComplexNumber[this.elementCount + 1];
+        int i = 0;
+        while (i < index) {
+            newVector[i] = this.elementData[i];
+            i++;
+        }
+        newVector[i++] = element;
+        while (i < this.elementCount + 1) {
+            newVector[i] = this.elementData[i - 1];
+        }
+        this.elementData = newVector;
+        this.elementCount += 1;
+    }
+
+    public void removeElement(ComplexNumber element) {
+        removeElement(-1, element);
+    }
+
+    public void removeElement(int index, ComplexNumber element) {
+        if (index == -1) {
+            if (index > this.elementCount) {
+                throw new IllegalArgumentException("Invalid index: " + index);
+            }
+            index = this.getIndexOf(element);
+        } else {
+            checkArg(index);
+        }
+        checkArg(element);
+
+        ComplexNumber[] newVector = new ComplexNumber[this.elementCount - 1];
+        int i = 0;
+        while (i < index) {
+            newVector[i] = this.elementData[i];
+            i++;
+        }
+        while (i < this.elementCount - 1) {
+            newVector[i] = this.elementData[i + 1];
+            i++;
+        }
+        this.elementData = newVector;
+        this.elementCount -= 1;
+    }
+
+    //Поиск индекса элемента
+    public int getIndexOf(ComplexNumber complexNumber) {
+        checkArg(complexNumber);
+        int i = 0;
+        while (i < this.elementCount) {
+            if (this.elementData[i].toString().equals(complexNumber.toString())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //Поиск элемента по индексу
+    public ComplexNumber elementAt(int index) {
+        checkArg(index);
+        return this.elementData[index];
     }
 
     public static ComplexVector sum(ComplexVector x, ComplexVector y) {
@@ -64,17 +137,6 @@ public class ComplexVector {
         return new ComplexVector(mult);
     }
 
-//    public static ComplexVector mult(ComplexVector x, ComplexNumber y) {
-//        checkArg(x);
-//        int i = 0;
-//        ComplexNumber[] mult = new ComplexNumber[x.length];
-//        while (i < x.length) {
-//            mult[i] = x[i] * y;
-//            i++;
-//        }
-//        return mult;
-//    }
-
     public static ComplexVector div(ComplexVector x, ComplexVector y) {
         checkArgs(x, y);
         int i = 0;
@@ -86,21 +148,9 @@ public class ComplexVector {
         return new ComplexVector(div);
     }
 
-//    public static ComplexVector div(ComplexVector x, ComplexNumber y) {
-//        checkArg(x);
-//        int i = 0;
-//        ComplexNumber[] div = new ComplexNumber[x.getLength()];
-//        while (i < x.getLength()) {
-//            div[i] = x[i] / y;
-//            i++;
-//        }
-//        return div;
-//    }
-
     private static void checkArgs(ComplexVector x, ComplexVector y) {
-        if (x == null || y == null || x.elementCount < 1 || y.elementCount < 1) {
-            throw new IllegalArgumentException("Illegal arguments");
-        }
+        checkArg(x);
+        checkArg(y);
         if (x.getLength() != y.getLength()) {
             throw new IllegalArgumentException(String.format("Vector's length doesn't match each other: %s and %s",
                     x.getLength(), y.getLength()));
@@ -113,7 +163,18 @@ public class ComplexVector {
         }
     }
 
-    //    @Override
+    private void checkArg(int index) {
+        if (index < -1 || index > this.elementCount) {
+            throw new IllegalArgumentException("Illegal arguments: index " + index + " is wrong!");
+        }
+    }
+
+    private static void checkArg(ComplexNumber x) {
+        if (x == null) {
+            throw new IllegalArgumentException("Illegal argument: complex number is null");
+        }
+    }
+
     public String toString() {
         String[] str = new String[this.elementCount];
         int i = 0;
