@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.galeev</groupId>
-    <artifactId>lab-one</artifactId>
+    <artifactId>rpm_ius</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>lab-one</name>
+    <name>rpm_ius</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

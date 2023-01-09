@@ -1,4 +1,4 @@
-module ru.galeev.labone {
+module ru.galeev.rpmuis {
     requires javafx.controls;
     requires javafx.fxml;
 

@@ -29,6 +29,9 @@ public class ComplexNumber {
     }
 
     public static ComplexNumber div(ComplexNumber x, ComplexNumber y) {
+        if ((y.real * y.real) + (y.imag * y.imag) == 0) {
+            throw new IllegalArgumentException("Division by zero!");
+        }
         return new ComplexNumber(
                 ((x.real * y.real) + (x.imag * y.imag)) / ((y.real * y.real) + (y.imag * y.imag)),
                 ((x.imag * y.real) - (x.real + y.imag)) / ((y.real * y.real) + (y.imag * y.imag)));
