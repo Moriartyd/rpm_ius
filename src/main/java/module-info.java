@@ -8,6 +8,6 @@ module ru.galeev.rpmuis {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
 
-    opens ru.galeev.labone to javafx.fxml;
-    exports ru.galeev.labone;
+    opens org.example.vector to javafx.fxml;
+    exports org.example.vector;
 }

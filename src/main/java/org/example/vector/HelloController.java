@@ -1,14 +1,13 @@
-package ru.galeev.labone;
+package org.example.vector;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import ru.galeev.labone.util.ComplexNumber;
-import ru.galeev.labone.util.ComplexVector;
+import org.example.vector.util.Vector;
 
 import java.util.Arrays;
 import java.util.Random;
 
-import static ru.galeev.labone.util.StringUtils.isEmpty;
+import static org.example.vector.util.StringUtils.isEmpty;
 
 public class HelloController {
 
@@ -38,7 +37,7 @@ public class HelloController {
 
     @FXML
     protected void onGenerateX() {
-        ComplexNumber[] vector = generateVector();
+        Double[] vector = generateVector();
         x.setText(Arrays.toString(vector)
                 .replace("[", "")
                 .replace("]", ""));
@@ -46,7 +45,7 @@ public class HelloController {
 
     @FXML
     protected void onGenerateY() {
-        ComplexNumber[] vector = generateVector();
+        Double[] vector = generateVector();
         y.setText(Arrays.toString(vector)
                 .replace("[", "")
                 .replace("]", ""));
@@ -54,7 +53,7 @@ public class HelloController {
 
     @FXML
     protected void onSum() {
-        ComplexVector vector = ComplexVector.sum(
+        Vector vector = Vector.sum(
                 parseVector(x.getText()),
                 parseVector(y.getText())
         );
@@ -64,7 +63,7 @@ public class HelloController {
 
     @FXML
     protected void onDiff() {
-        ComplexVector vector = ComplexVector.diff(
+        Vector vector = Vector.diff(
                 parseVector(x.getText()),
                 parseVector(y.getText())
         );
@@ -74,7 +73,7 @@ public class HelloController {
 
     @FXML
     protected void onMult() {
-        ComplexVector vector = ComplexVector.mult(
+        Vector vector = Vector.mult(
                 parseVector(x.getText()),
                 parseVector(y.getText())
         );
@@ -84,7 +83,7 @@ public class HelloController {
 
     @FXML
     protected void onDiv() {
-        ComplexVector vector = ComplexVector.div(
+        Vector vector = Vector.div(
                 parseVector(x.getText()),
                 parseVector(y.getText())
         );
@@ -97,17 +96,17 @@ public class HelloController {
         String vectorValue = x.getText();
         String indexValue = addedXIndex.getText();
         String addedValue = addedX.getText();
-        ComplexVector result;
+        Vector result;
 
         if (isEmpty(vectorValue)) {
-            result = new ComplexVector(new ComplexNumber[]{parseComplexNumber(addedValue)});
+            result = new Vector(new Double[]{parseDouble(addedValue)});
         } else {
             result = parseVector(vectorValue);
             if (isEmpty(indexValue)) {
-                result.addToEnd(parseComplexNumber(addedValue));
+                result.addToEnd(parseDouble(addedValue));
             } else {
                 result.addElement(Integer.parseInt(indexValue),
-                        parseComplexNumber(addedValue));
+                        parseDouble(addedValue));
             }
         }
         x.setText(result.toString());
@@ -118,17 +117,17 @@ public class HelloController {
         String vectorValue = y.getText();
         String indexValue = addedYIndex.getText();
         String addedValue = addedY.getText();
-        ComplexVector result;
+        Vector result;
 
         if (isEmpty(vectorValue)) {
-            result = new ComplexVector(new ComplexNumber[]{parseComplexNumber(addedValue)});
+            result = new Vector(new Double[]{parseDouble(addedValue)});
         } else {
             result = parseVector(vectorValue);
             if (isEmpty(indexValue)) {
-                result.addToEnd(parseComplexNumber(addedValue));
+                result.addToEnd(parseDouble(addedValue));
             } else {
                 result.addElement(Integer.parseInt(indexValue),
-                        parseComplexNumber(addedValue));
+                        parseDouble(addedValue));
             }
         }
         x.setText(result.toString());
@@ -139,7 +138,7 @@ public class HelloController {
         String addedValue = addedX.getText();
         String indexValue = addedXIndex.getText();
         String vectorValue = x.getText();
-        ComplexVector result;
+        Vector result;
 
         if (isEmpty(vectorValue)) {
             throw new IllegalArgumentException("Vector value is null");
@@ -148,7 +147,7 @@ public class HelloController {
             if (!isEmpty(indexValue)) {
                 result.removeElement(Integer.parseInt(indexValue), null);
             } else if (!isEmpty(addedValue)) {
-                result.removeElement(parseComplexNumber(addedValue));
+                result.removeElement(parseDouble(addedValue));
             }
         }
 
@@ -160,7 +159,7 @@ public class HelloController {
         String addedValue = addedY.getText();
         String indexValue = addedYIndex.getText();
         String vectorValue = y.getText();
-        ComplexVector result;
+        Vector result;
 
         if (isEmpty(vectorValue)) {
             throw new IllegalArgumentException("Vector value is null");
@@ -169,54 +168,39 @@ public class HelloController {
             if (!isEmpty(indexValue)) {
                 result.removeElement(Integer.parseInt(indexValue), null);
             } else if (!isEmpty(addedValue)) {
-                result.removeElement(parseComplexNumber(addedValue));
+                result.removeElement(parseDouble(addedValue));
             }
         }
 
         y.setText(result.toString());
     }
 
-    private ComplexNumber[] generateVector() {
-        ComplexNumber[] vector = new ComplexNumber[3];
+    private Double[] generateVector() {
+        Double[] vector = new Double[3];
         for (int i = 0; i < 3; i++) {
-            vector[i] = new ComplexNumber(random.nextInt() % 10, random.nextInt() % 10);
+            vector[i] = random.nextDouble();
         }
         return vector;
     }
 
-    private ComplexVector parseVector(String str) {
+    private Vector parseVector(String str) {
         if (isEmpty(str)) {
             throw new IllegalArgumentException("Text is blank!");
         }
         String[] strVector = str.split(", ");
-        ComplexNumber[] cpxVector = new ComplexNumber[strVector.length];
+        Double[] dblVector = new Double[strVector.length];
         int i = 0;
-        while (i < cpxVector.length) {
-            String[] cpxNumberStr = strVector[i].replace("i", "")
-                    .split(" \\+ ");
-            ComplexNumber cpxNumber = new ComplexNumber(
-                    Integer.parseInt(cpxNumberStr[0]),
-                    Integer.parseInt(cpxNumberStr[1]
-                            .replace("(", "")
-                            .replace(")", "")));
-            cpxVector[i] = cpxNumber;
+        while (i < dblVector.length) {
+            dblVector[i] = Double.valueOf(strVector[i]);
             i++;
         }
-        return new ComplexVector(cpxVector);
+        return new Vector(dblVector);
     }
 
-    private ComplexNumber parseComplexNumber(String str) {
+    private Double parseDouble(String str) {
         if (isEmpty(str)) {
             throw new IllegalArgumentException("Text is blank!");
         }
-
-        String[] cpxNumberStr = str.replace("i", "")
-                .split(" \\+ ");
-
-        return new ComplexNumber(
-                Integer.parseInt(cpxNumberStr[0]),
-                Integer.parseInt(cpxNumberStr[1]
-                        .replace("(", "")
-                        .replace(")", "")));
+        return Double.parseDouble(str);
     }
 }

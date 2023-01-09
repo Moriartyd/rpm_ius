@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>ru.galeev</groupId>
+    <groupId>org.example</groupId>
     <artifactId>rpm_ius</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>rpm_ius</name>
@@ -101,7 +101,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>ru.galeev.labone/ru.galeev.labone.HelloApplication</mainClass>
+                            <mainClass>ru.galeev.labone/org.example.vector.HelloApplication</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

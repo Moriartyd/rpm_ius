@@ -1,4 +1,4 @@
-package ru.galeev.labone.util;
+package org.example.vector.util;
 
 public class StringUtils {
 
